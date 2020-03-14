@@ -84,7 +84,6 @@ for slink in containers_course:
 
 ######################################################################################
 
-
 for slink in containers_course_descriptor:
     url = slink
     filename = url[-13:-4] + '.txt'
@@ -97,23 +96,33 @@ for slink in containers_course_descriptor:
         page_html = uClient.read()
         uClient.close()
         page_soup = soup(page_html, "html.parser")
-        containers = page_soup.find_all("table", {"class":"sitstablegrid"})
+        # containers = page_soup.find_all("table", {"class":"sitstablegrid"})
+        # containers = page_soup.find_all("td", {"class":"rowhead1"}, text = 'Summary' )
+        containers = page_soup.find_all("td", {"width":"85%"})
 
-        ftext = open(filename, 'w');
+
+        ftext = open(filename, 'w')
         output = ''
-        blacklist = [
-        	'[document]',
-        	'noscript',
-        	'header',
-        	'html',
-        	'meta',
-        	'head',
-        	'input',
-        	'script',
-        	# there may be more elements you don't want, such as "style", etc.
-        ]
+        output += '{} '.format(containers)
+        ftext.write(output)
 
-        for t in containers:
-            if t.parent.name not in blacklist:
-                output += '{} '.format(t)
-                ftext.write(output)
+        # output =
+        # ftext.write(output)
+
+        # blacklist = [
+        #      'summary'
+        # 	# '[document]',
+        	# 'noscript',
+        	# 'header',
+        	# 'html',
+        	# 'meta',
+        	# 'head',
+        	# 'input',
+        	# 'script',
+        	# # there may be more elements you don't want, such as "style", etc.
+        #]
+        #
+        # for t in containers:
+        #      if t.parent.name in blacklist:
+        #      output += '{} '.format(t)
+        #      ftext.write(output)
